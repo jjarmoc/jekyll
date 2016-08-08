@@ -1,0 +1,3 @@
+This file doesn't have YAML frontmatter...
+Liquid was {% if 1 == 2 %}NOT{% endif %}rendered.
+

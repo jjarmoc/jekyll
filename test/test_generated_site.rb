@@ -11,7 +11,7 @@ class TestGeneratedSite < JekyllUnitTest
     end
 
     should "ensure post count is as expected" do
-      assert_equal 49, @site.posts.size
+      assert_equal 51, @site.posts.size
     end
 
     should "insert site.posts into the index" do
@@ -60,12 +60,12 @@ OUTPUT
     end
 
     should "process static files in _posts dir" do
-      assert_exist dest_dir("2016/08/07/no-yaml.txt")
-      assert_exist dest_dir("2016/08/07/logo.png")
+      assert_exist dest_dir("2016/08/08/no-yaml.txt")
+      assert_exist dest_dir("2016/08/08/logo.png")
     end
 
     should "not render Liquid in _posts dir without YAML frontmatter" do
-      no_yaml = File.read(dest_dir("2016/08/07/no-yaml.txt"))
+      no_yaml = File.read(dest_dir("2016/08/08/no-yaml.txt"))
       refute no_yaml.include?('Liquid was rendered')
     end
   end

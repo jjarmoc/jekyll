@@ -1,4 +1,0 @@
-This file doesn't have YAML frontmatter...
-{% if 1 == 1 %}
-  ...but Liquid was rendered anyhow.  :(
-{% endif %}

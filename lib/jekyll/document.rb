@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module Jekyll
   class Document
     include Comparable
@@ -138,6 +136,18 @@ module Jekyll
       %w(.yaml .yml).include?(extname)
     end
 
+    # Determine whether the document contains YAML frontmatter
+    #
+    # Returns true if the file starts with '---', false otherwise.
+    def has_yaml_frontmatter?
+      unless @has_yaml_header
+        @has_yaml_header = File.open(path, 'rb') do |f|
+          f.read(3) == '---' ? true : false
+        end
+      end
+      @has_yaml_header
+    end
+
     # Determine whether the document is an asset file.
     # Asset files include CoffeeScript files and Sass/SCSS files.
     #
@@ -166,7 +176,7 @@ module Jekyll
     # Returns false if the document is either an asset file or a yaml file,
     #   true otherwise.
     def render_with_liquid?
-      !(coffeescript_file? || yaml_file?)
+      !(coffeescript_file? || yaml_file?) && has_yaml_frontmatter?
     end
 
     # Determine whether the file should be placed into layouts.
@@ -272,9 +282,12 @@ module Jekyll
 
           self.content = File.read(path, Utils.merged_file_read_opts(site, opts))
           if content =~ YAML_FRONT_MATTER_REGEXP
+            @has_yaml_header = true
             self.content = $POSTMATCH
             data_file = SafeYAML.load(Regexp.last_match(1))
             merge_data!(data_file, :source => "YAML front matter") if data_file
+          else
+            @has_yaml_header = false
           end
 
           post_read
