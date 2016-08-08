@@ -58,6 +58,16 @@ class TestGeneratedSite < JekyllUnitTest
 OUTPUT
       assert_match expected_output, File.read(dest_dir("static_files.html"))
     end
+
+    should "process static files in _posts dir" do
+      assert_exist dest_dir("2016/08/07/no-yaml.txt")
+      assert_exist dest_dir("2016/08/07/logo.png")
+    end
+
+    should "not render Liquid in _posts dir without YAML frontmatter" do
+      no_yaml = File.read(dest_dir("2016/08/07/no-yaml.txt"))
+      refute no_yaml.include?('Liquid was rendered')
+    end
   end
 
   context "generating limited posts" do
