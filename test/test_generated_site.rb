@@ -66,7 +66,7 @@ OUTPUT
 
     should "not render Liquid in _posts dir without YAML frontmatter" do
       no_yaml = File.read(dest_dir("2016/08/08/no-yaml.txt"))
-      refute no_yaml.include?('Liquid was rendered')
+      refute no_yaml.include?("Liquid was rendered")
     end
   end
 

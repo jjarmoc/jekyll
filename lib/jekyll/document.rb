@@ -1,3 +1,4 @@
+
 module Jekyll
   class Document
     include Comparable
